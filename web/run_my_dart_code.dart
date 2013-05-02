@@ -1,21 +1,25 @@
 import 'dart:html';
 import 'dart:async';
 import 'dart:collection';
+import 'dart:isolate';
 
 void main() {
+  String _codeContentFileURI;
   window.requestFileSystem(1024*1024).then((FileSystem filesystem){
     window.console.log("Access to file system granted");
-    filesystem.root.createFile('test.txt', exclusive: false).then((FileEntry fileEntry) {
+    filesystem.root.createFile('source.txt', exclusive: false).then((FileEntry fileEntry) {
       fileEntry.createWriter().then(_writeContentToFile);
+      _codeContentFileURI = fileEntry.toUrl();
+      window.console.log("Running content of $_codeContentFileURI");
+      spawnUri(_codeContentFileURI);
     });
   });
 }
 
 void _writeContentToFile(FileWriter fileWriter){
     window.console.log("Writing content to file");
-    var aFileParts = ["This is my file content !"];
+    var aFileParts = ["import 'dart:html';import 'dart:isolate'; void main() {window.alert('hello from an isolate!');}"];
     Blob blob = new Blob(aFileParts);
-    
     fileWriter.write(blob);
 }
 
