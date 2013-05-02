@@ -8,10 +8,12 @@ void main() {
   window.requestFileSystem(1024*1024).then((FileSystem filesystem){
     window.console.log("Access to file system granted");
     filesystem.root.createFile('source.txt', exclusive: false).then((FileEntry fileEntry) {
-      fileEntry.createWriter().then(_writeContentToFile);
-      _codeContentFileURI = fileEntry.toUrl();
-      window.console.log("Running content of $_codeContentFileURI");
-      spawnUri(_codeContentFileURI);
+      fileEntry.createWriter().then((FileWriter fileWriter){
+        _writeContentToFile(fileWriter);
+        _codeContentFileURI = fileEntry.toUrl();
+        window.console.log("Running content of $_codeContentFileURI");
+        spawnUri(_codeContentFileURI);
+      });
     });
   });
 }
