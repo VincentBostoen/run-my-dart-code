@@ -20,7 +20,7 @@ void main() {
 
 void _writeContentToFile(FileWriter fileWriter){
     window.console.log("Writing content to file");
-    var aFileParts = ["import 'dart:html';import 'dart:isolate'; void main() {window.alert('hello from an isolate!');}"];
+    var aFileParts = ["import 'dart:html';import 'dart:isolate'; void main() {print('hello from an isolate!');}"];
     Blob blob = new Blob(aFileParts);
     fileWriter.write(blob);
 }
