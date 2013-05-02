@@ -1,0 +1,4 @@
+name: run_my_dart_code
+description: A sample web application
+dependencies:
+  browser: any
