@@ -1,26 +1,22 @@
 import 'dart:html';
+import 'dart:async';
+import 'dart:collection';
 
 void main() {
-  window.requestFileSystem(1024*1024).then((FileSystem) => _requestFileSystemCallback);
+  window.requestFileSystem(1024*1024).then((FileSystem filesystem){
+    window.console.log("Access to file system granted");
+    filesystem.root.createFile('test.txt', exclusive: false).then((FileEntry fileEntry) {
+      fileEntry.createWriter().then(_writeContentToFile);
+    });
+  });
 }
 
-void _requestFileSystemCallback(FileSystem filesystem) {
-  FileSystem _filesystem = filesystem;
-  
-  _filesystem.root.getFile('test.txt',options: {'create': true, 'exclusive': true}, successCallback: (FileEntry fileEntry) {
-        fileEntry.createWriter((FileWriter fileWriter) {
-          fileWriter.onError.listen(_handleError);
-          
-          var aFileParts = ["This is my file content"];
-          Blob blob = new Blob(aFileParts, { "type" : "text\/xml" });
-          
-          fileWriter.write(blob);
-        }, _handleError);
-      },errorCallback: _handleError);
-  
-  _filesystem.root.getFile('test.txt',options: {'create': true, 'exclusive': true}, successCallback: (FileEntry fileEntry) {
-    window.alert(fileEntry.toUrl());
-  },  errorCallback: _handleError);
+void _writeContentToFile(FileWriter fileWriter){
+    window.console.log("Writing content to file");
+    var aFileParts = ["This is my file content !"];
+    Blob blob = new Blob(aFileParts);
+    
+    fileWriter.write(blob);
 }
 
 void _handleError(FileError e) {
