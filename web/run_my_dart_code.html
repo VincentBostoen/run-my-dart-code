@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Run my dart code</title>
-    <link rel="stylesheet" href="run_my_dart_code.css">
-  </head>
-  <body>
-    <script type="application/dart" src="run_my_dart_code.dart"></script>
-    <script src="packages/browser/dart.js"></script>
-  </body>
+<head>
+	<meta charset="utf-8">
+	<title>Run my dart code</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="run_my_dart_code.css">
+</head>
+<body>
+	<div class="container">
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="brand" href="#">Run my Dart code</a>
+			</div>
+		</div> 
+		<div class="row-fluid">
+			<div class="span12 code-container">
+				<textarea id="code-editor">void main() {print('hello from an isolate!');}</textarea>
+				<button id="run-code" class="btn btn-large" type="button">Run !</button>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12 well" id="execution-result">
+				Result
+			</div>
+		</div>
+	</div>
+	<script type="application/dart" src="run_my_dart_code.dart"></script>
+	<script src="packages/browser/dart.js"></script>
+</body>
 </html>
